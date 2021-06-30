@@ -1,6 +1,6 @@
 {
   "name": "id3-to-directories",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "A CLI tool to organize a directory tree of unsorted (but ID3 tagged) MP3 files into an \"Artist Name/Album Name/Song Title.ext\" structure under a top-level directory specified by an environment variable.",
   "main": "index.js",
   "scripts": {

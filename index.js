@@ -88,7 +88,7 @@ const main = async () => {
       const {
         artist = "Unknown Artist",
         album = "Unknown Album",
-        title = path.basename(filePath),
+        title = path.basename(filePath, path.extname(filePath)),
       } = tags;
 
       let byAlbum = byArtist[artist];
