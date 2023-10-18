@@ -105,27 +105,33 @@ const main = async () => {
     }
 
     console.log('Done reading ID3. Moving files...');
+    const errors = [];
     // Move files to the right directory
     for (let artist in byArtist) {
-      // console.log(artist);
       for (let album in byArtist[artist]) {
-        // console.log('\t', album);
         for (let title in byArtist[artist][album]) {
-          // console.log('\t\t', title);
           const { filePath } = byArtist[artist][album][title];
           const finalTargetDirectory = path.join(targetDirectory, artist, album);
           const targetFilePath = `${path.join(finalTargetDirectory, title)}${path.extname(filePath)}`;
           if (targetFilePath !== filePath) {
-            // console.log(filePath, '--->---', targetFilePath);
-            console.log(`mkdir ${finalTargetDirectory}`);
-            await fs.mkdir(finalTargetDirectory, { recursive: true });
-            console.log(`mv ${filePath} ${targetFilePath}`);
-            await fs.rename(filePath, targetFilePath);
+            try {
+              console.log(`mkdir ${finalTargetDirectory}`);
+              await fs.mkdir(finalTargetDirectory, { recursive: true });
+              console.log(`mv ${filePath} ${targetFilePath}`);
+              await fs.rename(filePath, targetFilePath);
+            } catch (error) {
+              errors.push(`${filePath}: ${error.message}`);
+            }
           }
         }
       }
     }
+
     console.log('All done.');
+    if (errors.length) {
+      console.log('The following errors occurred:');
+      console.log(errors.join('\n'));
+    }
   } else {
     console.log('Nothing to do.');
   }
